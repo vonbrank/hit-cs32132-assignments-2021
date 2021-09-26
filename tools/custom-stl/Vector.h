@@ -1,8 +1,8 @@
-#include <iostream>
-#include <cstdio>
+#ifndef VECTOR_H
+#define VECTOR_H
 
 template <class T>
-class CustomVector
+class Vector
 {
 private:
     T *data;
@@ -49,19 +49,19 @@ private:
     }
 
 public:
-    CustomVector()
+    Vector()
     {
         data = new T[1];
         _size = 0;
         _capacity = 1;
     }
-    CustomVector(int _size)
+    Vector(int _size)
     {
         data = new T[_size * 2];
         this->_size = _size;
         this->_capacity = _size * 2;
     }
-    ~CustomVector()
+    ~Vector()
     {
         delete[] data;
     }
@@ -113,11 +113,4 @@ public:
     }
 };
 
-int main()
-{
-    CustomVector<int> cv;
-    cv.update(100, 10);
-    printf("%d\n", cv.size());
-    printf("%d", cv.capacity());
-    return 0;
-}
+#endif

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdio>
 template <class T>
-class CustomVector
+class Vector
 {
 private:
     T *data;
@@ -48,19 +48,19 @@ private:
     }
 
 public:
-    CustomVector()
+    Vector()
     {
         data = new T[1];
         _size = 0;
         _capacity = 1;
     }
-    CustomVector(int _size)
+    Vector(int _size)
     {
         data = new T[_size * 2];
         this->_size = _size;
         this->_capacity = _size * 2;
     }
-    ~CustomVector()
+    ~Vector()
     {
         delete[] data;
     }
@@ -130,8 +130,8 @@ public:
 class Graph
 {
 private:
-    CustomVector<int> head;
-    CustomVector<Edge> data;
+    Vector<int> head;
+    Vector<Edge> data;
 
 public:
     Graph()
