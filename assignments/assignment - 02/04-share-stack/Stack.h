@@ -95,6 +95,8 @@ int StaticStack<T>::createStack()
 template <class T>
 T StaticStack<T>::top(int head)
 {
+    if (empty(head))
+        return 0;
     return _data[_top[head]].data();
 }
 
@@ -109,6 +111,8 @@ void StaticStack<T>::push(int head, T value)
 template <class T>
 void StaticStack<T>::pop(int head)
 {
+    if (empty(head))
+        return;
     int cache = _top[head];
     _top[head] = _data[cache].next();
     deleteNode(cache);

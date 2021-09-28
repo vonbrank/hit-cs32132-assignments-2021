@@ -6,7 +6,6 @@ using namespace std;
 int main()
 {
     StaticStack<int> stack(100);
-    int indexOfstack1 = stack.createStack();
     int n = 10;
     for (int i = 1; i <= n; i++)
     {
