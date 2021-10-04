@@ -8,7 +8,7 @@ class Random
 public:
     static int randInt()
     {
-        static int seed = int(time(NULL) * 48271LL % 2147483647);
+        static int seed = time(NULL);
         return seed = int(seed * 48271LL % 2147483647);
     }
     static int randInt(int n)
@@ -18,10 +18,6 @@ public:
     static int randInt(int a, int b)
     {
         return a + randInt() % (b - a + 1);
-    }
-    static long long randLongLong()
-    {
-        return ((long long)(randInt()) << 32 ) + randInt();
     }
 };
 #endif

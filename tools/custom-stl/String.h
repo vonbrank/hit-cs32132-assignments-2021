@@ -11,7 +11,7 @@ class String
 private:
     int _size;
     char *_data;
-
+    void resize();
 public:
     String();
     String(const char *s);
@@ -20,7 +20,16 @@ public:
     bool operator<(String s);
     char *data() const;
     int size();
+    void push(char c);
+    void pop();
+    void shift(char c);
+    void unshift();
 };
+
+void String::resize()
+{
+    
+}
 
 String::String()
 {
@@ -86,6 +95,11 @@ char *String::data() const
 int String::size()
 {
     return this->_size;
+}
+
+void String::push(char c)
+{
+    
 }
 
 #endif
