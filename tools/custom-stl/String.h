@@ -24,6 +24,7 @@ public:
     void pop();
     void shift(char c);
     void unshift();
+    void getLine();
 };
 
 void String::resize()
@@ -101,5 +102,7 @@ void String::push(char c)
 {
     
 }
+
+
 
 #endif

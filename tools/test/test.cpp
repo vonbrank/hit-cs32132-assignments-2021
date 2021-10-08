@@ -1,13 +1,24 @@
 #include <iostream>
 #include <random>
+#include <string>
 
 int main()
 {
     using namespace std;
-    for(int i=1; i<=95; i++)
+    int op;
+    string str;
+    do
     {
-        printf("%.2lf ", double(i));
-    }
+        cin >> op;
+        char c;
+        while((c = getchar()) != '\n')
+        {
+            cout << c << endl;
+        }
+        // cin.clear();
+        cout << op << endl;
+        cin >> str;
 
+    } while(op != -1);
     return 0;
 }

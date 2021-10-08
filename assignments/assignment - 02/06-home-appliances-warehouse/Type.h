@@ -10,9 +10,7 @@ public:
     static char toLower(char c);
     static char toUpper(char c);
     static bool isNumber(const std::string &str);
-    static std::string doubleToString(double d, int n);
     static int parseInt(const std::string &str);
-    // static double parseDouble(const std::string &str);
 };
 
 bool Type::isAlpha(char c)
@@ -77,19 +75,20 @@ char Type::toUpper(char c)
 
 bool Type::isNumber(const std::string &str)
 {
+    int notDigitsCount = 0;
+    char notDigit;
     for (int i = 0; i < str.size(); i++)
     {
         if (!isDigit(str[i]))
-            return false;
+        {
+            notDigitsCount++;
+            notDigit = str[i];
+        }
     }
+    if (notDigitsCount == 0 || (notDigitsCount == 1 && notDigit == '.'))
+        return true;
     return true;
 }
-
-std::string Type::doubleToString(double d, int n)
-{
-    return "";
-}
-
 int Type::parseInt(const std::string &str)
 {
     int res = 0;
