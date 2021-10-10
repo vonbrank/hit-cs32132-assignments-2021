@@ -1,22 +1,24 @@
 #include <iostream>
-#include <cstdio>
-#include <climits>
-#include <functional>
-#include <vector>
-#include "Type.h"
-
+#include <random>
+#include <algorithm>
+#include <cmath>
 int main()
 {
     using namespace std;
-    double d = 1.234;
-    vector<function<int(int, int)>> f;
 
-    auto lambda = [](double d, int n)
+    std::default_random_engine e;               //引擎
+    std::normal_distribution<double> n(50, 17); //均值, 方差
+    std::vector<unsigned> vals(100);
+    for (std::size_t i = 0; i != 5000; ++i)
     {
-        string str = to_string(d);
-        return str.substr(0, str.find_first_of(".") + n + 1);
-    };
-    cout << lambda(d, 2) << endl;
-    // cout << LLONG_MAX << endl;
+        unsigned v = std::lround(n(e)); //取整-最近的整数
+        if (v < vals.size())
+            ++vals[v];
+    }
+    for (std::size_t j = 0; j != vals.size(); ++j)
+        std::cout << j << " : " << vals[j] << std::string(vals[j], '*') << std::endl;
+
+    int sum = std::accumulate(vals.begin(), vals.end(), 0);
+
     return 0;
 }

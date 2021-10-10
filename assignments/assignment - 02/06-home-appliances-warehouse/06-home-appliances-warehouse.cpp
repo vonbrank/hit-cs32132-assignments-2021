@@ -1,3 +1,19 @@
+/**************************************************************************
+
+Author: 120L021403
+
+Date: 2021-09-29
+
+Description: HIT-数据结构与算法2021-2.6节-【大作业】家电库存
+
+Note: 
+
++ 使用单向链表存储家电信息，每个每个节点存储一个型号，以brand为第一关键字、name为第二关键字排序。
+
++ 模仿Unix命令行操作，使用命令操作仓库。
+
+**************************************************************************/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -93,7 +109,7 @@ private:
     public:
         Node()
         {
-            this->next = NULL;
+            this->next = nullptr;
         }
         Node(HomeAppliance data, Node *next)
         {
@@ -114,7 +130,7 @@ public:
     public:
         Iterator()
         {
-            iter = NULL;
+            iter = nullptr;
         }
         Iterator(Node *iter)
         {
@@ -138,13 +154,14 @@ public:
         }
         bool isNull()
         {
-            return iter == NULL;
+            return iter == nullptr;
         }
     };
     StockList()
     {
-        head = NULL;
+        head = nullptr;
         _size = 0;
+        // cout << "head: " << head << endl;
     }
     int size() const
     {
@@ -185,11 +202,11 @@ public:
         {
             if (pre.iter)
             {
-                pre.iter->next = new Node(homeAppliance, NULL);
+                pre.iter->next = new Node(homeAppliance, nullptr);
             }
             else
             {
-                head = new Node(homeAppliance, NULL);
+                head = new Node(homeAppliance, nullptr);
             }
         }
     }
@@ -229,6 +246,7 @@ public:
     }
     vector<HomeAppliance> getAll()
     {
+        // cout << "head: " << (head == nullptr) << endl;
         vector<HomeAppliance> res;
         Iterator iter(head);
         while (!iter.isNull())
@@ -252,13 +270,22 @@ public:
         stockList.insert(homeAppliance);
         return 0;
     }
-    int addItem(vector<string> command) //0: 成功；1: 非法参数。
+    int addItem(vector<string> command) //0: 成功；1: 非法参数；2: 商品已存在。
     {
         if (command.size() < 5 || !Type::isNumber(command[3]) || !Type::isNumber(command[4]))
         {
-            cout << "【错误】请输入合法的 add 命令：" << endl;
+            cout << "\033[1;31m【错误】\033[0m请输入合法的 add 命令：" << endl;
             cout << "add <name> <brand> <price> <amount>\t\t添加名为 name，品牌为 brand，价格为 price，数量为 amount 的库存。" << endl;
             return 1;
+        }
+        StockList::Iterator it = stockList.find(command[1]);
+        if (!it.isNull())
+        {
+
+            cout << "\033[1;31m【错误】\033[0m商品已存在，请使用 put/get 命令修改库存。" << endl;
+            cout << "put <name> <amount>\t\t名为 name 的商品增加 amount 个库存。" << endl;
+            cout << "get <name> <amount>\t\t名为 name 的商品减少 amount 个库存。" << endl;
+            return 2;
         }
         string name = command[1];
         string brand = command[2];
@@ -266,14 +293,14 @@ public:
         int count = stoi(command[4]);
         HomeAppliance homeAppliance(name, brand, price, count);
         addItem(homeAppliance);
-        cout << "成功添加商品 " << command[1] << endl;
+        cout << "\033[1;32m成功添加商品\033[0m " << command[1] << endl;
         return 0;
     }
     int putItem(vector<string> command) //0: 成功；1: 添加商品；2: 非法参数。
     {
         if (command.size() < 3 || !Type::isNumber(command[2]))
         {
-            cout << "【错误】请输入合法的 put 命令：" << endl;
+            cout << "\033[1;31m【错误】\033[0m请输入合法的 put 命令：" << endl;
             cout << "put <name> <amount>\t\t名为 name 的商品增加 amount 个库存。" << endl;
             return 2;
         }
@@ -281,7 +308,7 @@ public:
         if (it.isNull())
         {
 
-            cout << "【错误】商品不存在，请使用 add 命令添加商品。" << endl;
+            cout << "\033[1;31m【错误】\033[0m商品不存在，请使用 add 命令添加商品。" << endl;
             cout << "add <name> <brand> <price> <amount>\t\t添加名为 name，品牌为 brand，价格为 price，数量为 amount 的库存。" << endl;
             return 1;
         }
@@ -293,7 +320,7 @@ public:
             homeAppliance.setCount(total);
             stockList.erase(it);
             stockList.insert(homeAppliance);
-            cout << "【库存更新】" << command[1] << " 的库存修改为 " << total << endl;
+            cout << "\033[1;32m【库存更新】\033[0m" << command[1] << " 的库存修改为 " << total << endl;
         }
         return 0;
     }
@@ -301,15 +328,14 @@ public:
     {
         if (command.size() < 3 || !Type::isNumber(command[2]))
         {
-            cout << "【错误】请输入合法的 get 命令：" << endl;
+            cout << "\033[1;31m【错误】\033[0m请输入合法的 get 命令：" << endl;
             cout << "get <name> <amount>\t\t名为 name 的商品减少 amount 个库存。" << endl;
             return 3;
         }
         StockList::Iterator it = stockList.find(command[1]);
         if (it.isNull())
         {
-
-            cout << "【错误】商品不存在，请使用 add 命令添加商品。" << endl;
+            cout << "\033[1;31m【错误】\033[0m商品不存在，请使用 add 命令添加商品。" << endl;
             cout << "add <name> <brand> <price> <amount>\t\t添加名为 name，品牌为 brand，价格为 price，数量为 amount 的库存。" << endl;
             return 1;
         }
@@ -320,13 +346,13 @@ public:
             int total = homeAppliance.getCount() - count;
             if (total < 0)
             {
-                cout << "【错误】库存不足！" << endl;
+                cout << "\033[1;31m【错误】\033[0m库存不足！" << endl;
                 return 1;
             }
             homeAppliance.setCount(total);
             stockList.erase(it);
             stockList.insert(homeAppliance);
-            cout << "【库存更新】" << command[1] << " 的库存修改为 " << total << endl;
+            cout << "\033[1;32m【库存更新】\033[0m" << command[1] << " 的库存修改为 " << total << endl;
         }
         return 0;
     }
@@ -334,7 +360,7 @@ public:
     {
         if (command.size() < 2)
         {
-            cout << "【错误】请输入合法的 query 命令：" << endl;
+            cout << "\033[1;31m【错误】\033[0m请输入合法的 query 命令：" << endl;
             cout << "query <name>\t\t调出出名为 name 的商品的所有信息。" << endl;
             cout << "query --all\t\t调出所有商品信息。" << endl;
             return 2;
@@ -342,6 +368,7 @@ public:
         if (command[1] == "--all")
         {
             vector<HomeAppliance> homeAppliances = stockList.getAll();
+            // cout << homeAppliances.size() << endl;
             for (int i = 0; i < homeAppliances.size(); i++)
             {
                 cout << homeAppliances[i].toString() << endl
@@ -354,7 +381,7 @@ public:
             StockList::Iterator it = stockList.find(command[1]);
             if (it.isNull())
             {
-                cout << "【错误】商品不存在" << endl
+                cout << "\033[1;31m【错误】\033[0m商品不存在" << endl
                      << endl;
                 return 1;
             }
@@ -413,23 +440,10 @@ private:
         else if (strings[0] == "add")
         {
             int res = warehouse.addItem(strings);
-            if (res == 0)
-            {
-            }
         }
         else if (strings[0] == "put")
         {
             int res = warehouse.putItem(strings);
-            if (res == 0)
-            {
-                // cout << "【库存更新】" << strings[1] << " 的库存修改为 " << strings[2] << endl;
-            }
-            else if (res == 1)
-            {
-            }
-            else
-            {
-            }
         }
         else if (strings[0] == "get")
         {
@@ -438,12 +452,6 @@ private:
         else if (strings[0] == "query")
         {
             int res = warehouse.query(strings);
-            if (res == 1)
-            {
-            }
-            else if (res == 2)
-            {
-            }
         }
         else if (strings[0] == "exit")
         {
@@ -452,15 +460,23 @@ private:
         }
         else
         {
-            cout << "未知命令：" << strings[0] << endl;
-            cout << "请使用 --help 查询命令的使用方法。" << endl;
+            cout << "\033[1;31m未知命令\033[0m：" << strings[0] << endl;
+            cout << "请使用 \033[1;34m--help\033[0m 查询命令的使用方法。" << endl;
         }
         return 0;
     }
     void showHelp()
     {
-        cout << "put <name> <amount>"
-             << "\t名为 <name> 的商品增加 <amount> 个库存。" << endl;
+        cout << "--help\t\t查询命令的使用方法。" << endl;
+        cout << "add <name> <brand> <price> <amount>\t\t"
+             << "添加名为 name，品牌为 brand，价格为 price，数量为 amount 的库存。" << endl;
+        cout << "put <name> <amount>\t\t"
+             << "名为 <name> 的商品增加 <amount> 个库存。" << endl;
+        cout << "get <name> <amount>\t\t"
+             << "名为 name 的商品减少 amount 个库存。" << endl;
+        cout << "query <name>\t\t调出出名为 name 的商品的所有信息。" << endl;
+        cout << "query --all\t\t调出所有商品信息。" << endl;
+        cout << "exit\t\t退出" << endl;
     }
     void init()
     {
@@ -486,9 +502,10 @@ private:
             warehouse.addItem(homeAppliance);
         }
         cin.rdbuf(backup); // restore cin's original streambuf
+        fin.close();
         cout << "数据读取完成！" << endl;
         cout << "开始营业。" << endl;
-        cout << "输入 --help 查询命令的使用方法。" << endl;
+        cout << "输入 \033[1;34m--help\033[0m 查询命令的使用方法。" << endl;
     }
     void shutdown()
     {
@@ -504,12 +521,17 @@ private:
         cout << homeAppliances.size() << endl;
         for (int i = 0; i < homeAppliances.size(); i++)
         {
+            auto doubleToString = [](double d, int n)
+            {
+                string str = to_string(d);
+                return str.substr(0, str.find_first_of(".") + n + 1);
+            };
             cout << homeAppliances[i].getName() << " " << homeAppliances[i].getBrand()
-                 << " " << homeAppliances[i].getPrice() << " " << homeAppliances[i].getCount() << endl;
+                 << " " << doubleToString(homeAppliances[i].getPrice(), 2) << " " << homeAppliances[i].getCount() << endl;
         }
 
         cout.rdbuf(coutbackup); //取消，恢复屏幕输出
-
+        fout.close();
         cout << "数据保存完成！" << endl;
         cout << "结束营业。" << endl;
         // cout << "输入 --help 查询命令的使用方法。" << endl;
@@ -523,7 +545,8 @@ public:
         while (true)
         {
             // cout << "\033[1;31mbold red text\033[0m\n";
-            cout << "\033[1;34mroot@system ~ \033[0m";
+            cout << endl
+                 << "\033[1;34mroot@system ~ \033[0m";
             cin.clear();
             getline(cin, command);
             // cout << command << endl;
