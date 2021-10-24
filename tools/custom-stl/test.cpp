@@ -1,24 +1,20 @@
 #include <iostream>
-#include <random>
-#include <algorithm>
-#include <cmath>
+#include "Random.h"
+
 int main()
 {
     using namespace std;
 
-    std::default_random_engine e;               //引擎
-    std::normal_distribution<double> n(50, 17); //均值, 方差
-    std::vector<unsigned> vals(100);
-    for (std::size_t i = 0; i != 5000; ++i)
+    int a[110];
+    for(int i=1; i<=3; i++)
     {
-        unsigned v = std::lround(n(e)); //取整-最近的整数
-        if (v < vals.size())
-            ++vals[v];
+        a[i] = i;
     }
-    for (std::size_t j = 0; j != vals.size(); ++j)
-        std::cout << j << " : " << vals[j] << std::string(vals[j], '*') << std::endl;
-
-    int sum = std::accumulate(vals.begin(), vals.end(), 0);
-
+    Random::shuffle(a + 1, 3);
+    for(int i=1; i<= 3; i++)
+    {
+        cout << a[i] << " ";
+    }
+    cout << endl;
     return 0;
 }

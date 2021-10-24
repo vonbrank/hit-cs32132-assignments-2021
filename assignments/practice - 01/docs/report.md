@@ -217,6 +217,10 @@
 
 [`restaurant.cpp`](data-generator.cpp) 包含了全部解决方案。
 
++ 流程图
+
+  ![flowchart](img/flowchart.jpg)
+
 + UML图:
 
   ![uml.jpg](img/uml.jpg)
