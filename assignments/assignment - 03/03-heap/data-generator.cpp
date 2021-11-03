@@ -11,7 +11,7 @@ int main()
     using namespace std;
     int num, level;
     fstream fout;
-    fout.open("task.in");
+    fout.open("input.txt");
     for (int i = 1; i <= n; i++)
     {
         fout << i << " " << Random::randInt(0, maxLevel) << endl;

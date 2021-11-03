@@ -45,7 +45,7 @@ private:
     int num, level;
     friend std::ostream &operator<<(std::ostream &os, const Task &t)
     {
-        os << t.num;
+        os << "num: " << t.num << ", " << "level: " << t.level;
         return os;
     }
     friend std::fstream &operator<<(std::fstream &fs, const Task &t)
@@ -135,7 +135,7 @@ int main()
 {
     using namespace std;
     fstream fin;
-    fin.open("task.in");
+    fin.open("input.txt");
     // fstream fout;
     // fout.open("task.out");
     int x, level;
@@ -147,7 +147,7 @@ int main()
     }
     while (!queue.empty())
     {
-        cout << queue.front() << " ";
+        cout << queue.front() << endl;
         queue.pop();
     }
     return 0;

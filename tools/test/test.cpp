@@ -1,10 +1,11 @@
 #include <iostream>
-#include <random>
-#include <string>
+#include <cstdio>
+using namespace std;
 
 int main()
 {
-    using namespace std;
+    printf("Hello, World\r\nABC");
 
+    printf("\n");
     return 0;
 }
