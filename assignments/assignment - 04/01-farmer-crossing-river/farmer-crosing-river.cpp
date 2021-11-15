@@ -71,6 +71,8 @@ private:
         return true;
     }
     /*
+    now     0               1               1               0
+
     vis     0               1               2               3
             person          vegetable       sheep           wolf
     */

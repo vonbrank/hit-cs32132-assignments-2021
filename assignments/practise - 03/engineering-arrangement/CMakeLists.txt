@@ -3,4 +3,4 @@ project(engineering_arrangement)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(engineering_arrangement main.cpp)
+add_executable(engineering_arrangement main.cpp Graph.h Graph.cpp)
